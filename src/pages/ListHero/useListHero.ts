@@ -1,14 +1,15 @@
 import { useFetch } from 'use-http'
-import { useState, useEffect, useCallback } from 'react'
-import { useLocation, useHistory, useRouteMatch } from 'react-router-dom'
+import { useState, useEffect, useCallback, useContext } from 'react'
+import { useLocation, useHistory } from 'react-router-dom'
 import Hero from '../../types/Hero'
 import qs from 'query-string'
 import ApiDefaultResponse from '../../types/ApiDefaultResponse'
 import useDebounce from '../../hooks/useDebounce'
 import { API_ROOT } from '../../config'
+import { HeroContext } from '../../context/HeroContext'
 
 export default function useListHero() {
-  const [heros, setHeros] = useState<Hero[]>()
+  const { heroList, setHeroList } = useContext(HeroContext)
   // eslint-disable-next-line
   let location = useLocation()
   const history = useHistory()
@@ -27,8 +28,8 @@ export default function useListHero() {
       ? `v1/public/characters?apikey=${process.env.REACT_APP_API_KEY}&${stringifiedParams}`
       : `v1/public/characters?apikey=${process.env.REACT_APP_API_KEY}`
     const response = await get(path)
-    response && setHeros(response.data.results)
-  }, [stringifiedParams, get])
+    response && setHeroList(response.data.results)
+  }, [stringifiedParams, get, searchText, setHeroList])
 
   useEffect(() => {
     history.push(`${location.pathname}?${stringifiedParams}`)
@@ -42,5 +43,5 @@ export default function useListHero() {
     setSearchText(search)
   }
 
-  return { error, loading, heros, searchText, handleSearch }
+  return { error, loading, heroList, searchText, handleSearch }
 }

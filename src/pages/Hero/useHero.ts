@@ -1,13 +1,12 @@
-import useFetch from 'use-http'
 import { useParams } from 'react-router-dom'
-import { API_ROOT } from '../../config'
+import { useContext } from 'react'
+import { HeroContext } from '../../context/HeroContext'
 
 export default function useHero() {
   const { heroId } = useParams()
-  const { data: hero = [], error, loading } = useFetch(
-    `${API_ROOT}/v1/public/characters/${heroId}&apikey=${process.env.REACT_APP_API_KEY}`,
-    []
-  )
+  const { heroList } = useContext(HeroContext)
 
-  return { hero, error, loading }
+  const hero = heroList.find(({ id }) => id === parseInt(heroId))
+
+  return { hero }
 }
