@@ -3,7 +3,11 @@ module.exports = {
     browser: true,
     es2020: true
   },
-  extends: ['plugin:react/recommended', 'standard'],
+  extends: [
+    'plugin:react/recommended',
+    'standard',
+    'plugin:@typescript-eslint/recommended'
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
@@ -14,6 +18,8 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {
-    'space-before-function-paren': 'off'
+    'space-before-function-paren': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'react/prop-types': 'off'
   }
 }
