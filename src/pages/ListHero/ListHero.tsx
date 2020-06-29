@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom'
 
 export default function ListHero() {
   const classes = useStyles()
+
   const { heroList, searchText, handleSearch, loading } = useListHero()
   return (
     <>

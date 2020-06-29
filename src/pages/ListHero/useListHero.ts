@@ -6,15 +6,12 @@ import qs from 'query-string'
 import ApiDefaultResponse from '../../types/ApiDefaultResponse'
 import useDebounce from '../../hooks/useDebounce'
 import { API_ROOT } from '../../config'
-import { HeroContext } from '../../context/HeroContext'
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux'
 import { addHeroList } from '../../store/heros'
 
 export default function useListHero() {
   const dispatch = useDispatch()
-  // const { heroList, setHeroList } = useContext(HeroContext)
   const heroList: Hero[] = useSelector((state: RootStateOrAny) => state.heros)
-  console.log(heroList)
   // eslint-disable-next-line
   let location = useLocation()
   const history = useHistory()
@@ -26,16 +23,17 @@ export default function useListHero() {
   const stringifiedParams = qs.stringify({
     name: debounceSearchText
   })
-  const { get, error, loading } = useFetch<ApiDefaultResponse<Hero[]>>(API_ROOT)
+  const { get, error, loading, response } = useFetch<
+    ApiDefaultResponse<Hero[]>
+  >(API_ROOT)
 
   const getData = useCallback(async () => {
     const path = searchText
       ? `v1/public/characters?apikey=${process.env.REACT_APP_API_KEY}&${stringifiedParams}`
       : `v1/public/characters?apikey=${process.env.REACT_APP_API_KEY}`
-    const response = await get(path)
+    const result = await get(path)
 
-    // response && setHeroList(response.data.results)
-    response && dispatch(addHeroList(response.data.results))
+    response.ok && dispatch(addHeroList(result.data.results))
   }, [stringifiedParams, get, searchText])
 
   useEffect(() => {
