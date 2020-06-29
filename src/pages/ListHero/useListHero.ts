@@ -7,9 +7,14 @@ import ApiDefaultResponse from '../../types/ApiDefaultResponse'
 import useDebounce from '../../hooks/useDebounce'
 import { API_ROOT } from '../../config'
 import { HeroContext } from '../../context/HeroContext'
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux'
+import { addHeroList } from '../../store/heros'
 
 export default function useListHero() {
-  const { heroList, setHeroList } = useContext(HeroContext)
+  const dispatch = useDispatch()
+  // const { heroList, setHeroList } = useContext(HeroContext)
+  const heroList: Hero[] = useSelector((state: RootStateOrAny) => state.heros)
+  console.log(heroList)
   // eslint-disable-next-line
   let location = useLocation()
   const history = useHistory()
@@ -28,8 +33,10 @@ export default function useListHero() {
       ? `v1/public/characters?apikey=${process.env.REACT_APP_API_KEY}&${stringifiedParams}`
       : `v1/public/characters?apikey=${process.env.REACT_APP_API_KEY}`
     const response = await get(path)
-    response && setHeroList(response.data.results)
-  }, [stringifiedParams, get, searchText, setHeroList])
+
+    // response && setHeroList(response.data.results)
+    response && dispatch(addHeroList(response.data.results))
+  }, [stringifiedParams, get, searchText])
 
   useEffect(() => {
     history.push(`${location.pathname}?${stringifiedParams}`)
