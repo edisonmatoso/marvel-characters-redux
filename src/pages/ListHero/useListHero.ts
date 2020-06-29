@@ -23,9 +23,7 @@ export default function useListHero() {
   const stringifiedParams = qs.stringify({
     name: debounceSearchText
   })
-  const { get, error, loading, response } = useFetch<
-    ApiDefaultResponse<Hero[]>
-  >(API_ROOT)
+  const { get, error, loading } = useFetch<ApiDefaultResponse<Hero[]>>(API_ROOT)
 
   const getData = useCallback(async () => {
     const path = searchText
@@ -33,8 +31,10 @@ export default function useListHero() {
       : `v1/public/characters?apikey=${process.env.REACT_APP_API_KEY}`
     const result = await get(path)
 
-    response.ok && dispatch(addHeroList(result.data.results))
-  }, [stringifiedParams, get, searchText])
+    if (result) {
+      dispatch(addHeroList(result.data.results))
+    }
+  }, [stringifiedParams, get, searchText, dispatch, searchText])
 
   useEffect(() => {
     history.push(`${location.pathname}?${stringifiedParams}`)
@@ -42,10 +42,11 @@ export default function useListHero() {
   }, [stringifiedParams, history, location.pathname, getData])
 
   const handleSearch = (search: string) => {
-    if (!search) {
+    if (!search.length) {
       setSearchText(undefined)
+    } else {
+      setSearchText(search)
     }
-    setSearchText(search)
   }
 
   return { error, loading, heroList, searchText, handleSearch }
