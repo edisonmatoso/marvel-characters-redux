@@ -1,5 +1,5 @@
 import { useFetch } from 'use-http'
-import { useState, useEffect, useCallback, useContext } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useLocation, useHistory } from 'react-router-dom'
 import Hero from '../../types/Hero'
 import qs from 'query-string'
@@ -38,7 +38,7 @@ export default function useListHero() {
     if (result) {
       dispatch(addHeroList(result.data.results))
     }
-  }, [stringifiedParams, get, searchText, dispatch, searchText])
+  }, [stringifiedParams, get, searchText, dispatch, abort])
 
   useEffect(() => {
     history.push(`${location.pathname}?${stringifiedParams}`)

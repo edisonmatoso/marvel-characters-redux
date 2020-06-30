@@ -17,7 +17,7 @@ const useHeroForm = (hero: Hero, handleClose: () => void) => {
 
   useEffect(() => {
     reset({ name: hero.name })
-  }, [reset])
+  }, [reset, hero.name])
 
   const onSubmit = (data: any) => {
     dispatch(editHeroName(hero.id, data.name))
