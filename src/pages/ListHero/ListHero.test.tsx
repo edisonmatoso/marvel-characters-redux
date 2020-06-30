@@ -19,6 +19,7 @@ describe('ListHero', () => {
     expect(container).toBeDefined()
   })
 
+  // skiping because in pipeline dont work (still) =(
   it.skip('should render a card hero', async () => {
     const history = createMemoryHistory()
     history.push({
