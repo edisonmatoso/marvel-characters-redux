@@ -19,7 +19,7 @@ describe('ListHero', () => {
     expect(container).toBeDefined()
   })
 
-  it('should render a card hero', async () => {
+  it.skip('should render a card hero', async () => {
     const history = createMemoryHistory()
     history.push({
       pathname: '/list-hero',
