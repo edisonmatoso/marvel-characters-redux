@@ -6,7 +6,7 @@ import qs from 'query-string'
 import ApiDefaultResponse from '../../types/ApiDefaultResponse'
 import { API_ROOT } from '../../config'
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux'
-import { addHeroList } from '../../store/heros'
+import { addHeroList } from '../../store/heros/actions'
 
 export default function useListHero() {
   const dispatch = useDispatch()
