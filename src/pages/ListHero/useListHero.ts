@@ -4,7 +4,6 @@ import { useLocation, useHistory } from 'react-router-dom'
 import Hero from '../../types/Hero'
 import qs from 'query-string'
 import ApiDefaultResponse from '../../types/ApiDefaultResponse'
-import useDebounce from '../../hooks/useDebounce'
 import { API_ROOT } from '../../config'
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux'
 import { addHeroList } from '../../store/heros'
@@ -19,13 +18,16 @@ export default function useListHero() {
   const [searchText, setSearchText] = useState<string | undefined>(
     name as string
   )
-  const debounceSearchText = useDebounce(searchText, 500)
+
   const stringifiedParams = qs.stringify({
-    name: debounceSearchText
+    name: searchText
   })
-  const { get, error, loading } = useFetch<ApiDefaultResponse<Hero[]>>(API_ROOT)
+  const { get, abort, error, loading } = useFetch<ApiDefaultResponse<Hero[]>>(
+    API_ROOT
+  )
 
   const getData = useCallback(async () => {
+    abort()
     const path = searchText
       ? `v1/public/characters?apikey=${process.env.REACT_APP_API_KEY}&${stringifiedParams}`
       : `v1/public/characters?apikey=${process.env.REACT_APP_API_KEY}`
@@ -49,5 +51,5 @@ export default function useListHero() {
     }
   }
 
-  return { error, loading, heroList, searchText, handleSearch }
+  return { error, loading, heroList, searchText, handleSearch, abort }
 }

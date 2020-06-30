@@ -1,7 +1,6 @@
 type Hero = {
   id: number
   name: string
-  description: string
   thumbnail: Thumbnail
   series: Serie
 }

@@ -5,7 +5,7 @@ import useHero from './useHero'
 
 export default function Hero() {
   const { hero } = useHero()
-  // console.log({ hero })
+
   return (
     <>
       <Link to="/" style={{ textDecoration: 'none' }}>
