@@ -10,7 +10,9 @@ import { addHeroList } from '../../store/heros/actions'
 
 export default function useListHero() {
   const dispatch = useDispatch()
-  const heroList: Hero[] = useSelector((state: RootStateOrAny) => state.heros)
+  const { heros }: { heros: Hero[] } = useSelector(
+    (state: RootStateOrAny) => state.heros
+  )
   // eslint-disable-next-line
   let location = useLocation()
   const history = useHistory()
@@ -51,5 +53,5 @@ export default function useListHero() {
     }
   }
 
-  return { error, loading, heroList, searchText, handleSearch, abort }
+  return { error, loading, heros, searchText, handleSearch, abort }
 }

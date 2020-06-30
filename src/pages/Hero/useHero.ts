@@ -4,9 +4,11 @@ import { useSelector, RootStateOrAny } from 'react-redux'
 
 export default function useHero() {
   const { heroId } = useParams()
-  const heroList: Hero[] = useSelector((state: RootStateOrAny) => state.heros)
+  const { heros }: { heros: Hero[] } = useSelector(
+    (state: RootStateOrAny) => state.heros
+  )
 
-  const hero = heroList.find(({ id }) => id === parseInt(heroId))
+  const hero = heros && heros.find(({ id }) => id === parseInt(heroId))
 
   return { hero }
 }

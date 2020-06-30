@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom'
 export default function ListHero() {
   const classes = useStyles()
 
-  const { heroList, searchText, handleSearch, loading } = useListHero()
+  const { heros, searchText, handleSearch, loading } = useListHero()
   return (
     <>
       <div className={classes.search}>
@@ -38,8 +38,8 @@ export default function ListHero() {
         {loading && <CircularProgress size={15} />}
       </div>
       <Grid container direction="row" justify="space-between">
-        {heroList &&
-          heroList.map((hero) => (
+        {heros &&
+          heros.map((hero) => (
             <Link
               key={hero.id}
               to={`hero/${hero.id}`}
@@ -61,7 +61,7 @@ export default function ListHero() {
               </Card>
             </Link>
           ))}
-        {heroList?.length === 0 && (
+        {heros?.length === 0 && (
           <Typography
             className={classes.centeredText}
             gutterBottom

@@ -19,12 +19,14 @@ export default function herosReducer(
       return action.payload
 
     case EDIT_HERO_NAME:
-      return state.heros.map((hero: Hero) => {
-        if (hero.id === action.payload.id) {
-          hero.name = action.payload.name
-        }
-        return hero
-      })
+      return {
+        heros: state.heros.map((hero: Hero) => {
+          if (hero.id === action.payload.id) {
+            hero.name = action.payload.name
+          }
+          return hero
+        })
+      }
     default:
       return state.heros
   }

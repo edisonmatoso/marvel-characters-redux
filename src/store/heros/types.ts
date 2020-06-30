@@ -8,9 +8,13 @@ type EditHeroPayload = {
   name: string
 }
 
+type HeroPayload = {
+  heros: Hero[]
+}
+
 interface AddHeroListAction {
   type: typeof ADD_HERO_LIST
-  payload: Hero[]
+  payload: HeroPayload
 }
 
 interface EditHeroNameAction {
